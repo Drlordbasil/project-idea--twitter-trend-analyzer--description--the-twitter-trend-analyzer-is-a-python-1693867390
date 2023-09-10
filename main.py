@@ -3,6 +3,7 @@ from textblob import TextBlob
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
+
 class TwitterTrendAnalyzer:
     def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret):
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -84,6 +85,7 @@ class TwitterTrendAnalyzer:
 
         print(report)
 
+
 if __name__ == "__main__":
     # Twitter API credentials
     consumer_key = "YOUR_CONSUMER_KEY"
@@ -91,20 +93,23 @@ if __name__ == "__main__":
     access_token = "YOUR_ACCESS_TOKEN"
     access_token_secret = "YOUR_ACCESS_TOKEN_SECRET"
 
-    twitter_analyzer = TwitterTrendAnalyzer(consumer_key, consumer_secret, access_token, access_token_secret)
+    twitter_analyzer = TwitterTrendAnalyzer(
+        consumer_key, consumer_secret, access_token, access_token_secret)
     trending_topics = twitter_analyzer.get_trending_topics()
 
     print("Trending Topics:")
     for i, topic in enumerate(trending_topics):
         print("{}. {}".format(i + 1, topic))
 
-    trend_index = int(input("Enter the index of the trend you want to analyze: "))
+    trend_index = int(
+        input("Enter the index of the trend you want to analyze: "))
     trend = trending_topics[trend_index - 1]
 
     tweets = tweepy.Cursor(twitter_analyzer.api.search, q=trend).items(100)
     tweet_texts = [tweet.text for tweet in tweets]
 
-    sentiment_scores = [twitter_analyzer.analyze_sentiment(text) for text in tweet_texts]
+    sentiment_scores = [twitter_analyzer.analyze_sentiment(
+        text) for text in tweet_texts]
 
     all_text = " ".join(tweet_texts)
     twitter_analyzer.generate_word_cloud(all_text)
