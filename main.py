@@ -1,16 +1,15 @@
-import os
-from collections import Counter
-Here are some optimizations for the Python script:
+Optimization 1:
+Use list comprehension instead of a for loop to generate the `trending_topics` list in the `get_trending_topics` method:
 
-1. Use list comprehension instead of a for loop to generate the `trending_topics` list in the `get_trending_topics` method:
 ```python
 trending_topics = [trend["name"] for trend in trends[0]
                    ["trends"] if trend["name"].startswith("#")]
 ```
 
-2. Use the `collections.Counter` class to count the number of positive, negative, and neutral sentiments in the `track_hashtag` method:
-```python
+Optimization 2:
+Use the `collections.Counter` class to count the number of positive, negative, and neutral sentiments in the `track_hashtag` method:
 
+```python
 sentiments = [self.analyze_sentiment(tweet.text) for tweet in tweets]
 sentiment_counts = Counter(sentiments)
 
@@ -19,14 +18,18 @@ negative_count = sentiment_counts["negative"]
 neutral_count = sentiment_counts["neutral"]
 ```
 
-3. Use formatted strings(f-strings) instead of the `format` method for better readability in the sentiment analysis results:
+Optimization 3:
+Use formatted strings(f-strings) instead of the `format` method for better readability in the sentiment analysis results:
+
 ```python
 print(f"Positive: {positive_percent:.2f}%")
 print(f"Negative: {negative_percent:.2f}%")
 print(f"Neutral: {neutral_percent:.2f}%")
 ```
 
-4. Move the generation of the user demographics report to a separate method and return the report as a string instead of printing it:
+Optimization 4:
+Move the generation of the user demographics report to a separate method and return the report as a string instead of printing it:
+
 ```python
 
 
@@ -44,7 +47,8 @@ def generate_user_demographics_report(self, user_demographics):
 
 ```
 
-5. Handle API credentials securely by using environment variables rather than hardcoding them in the code:
+Optimization 5:
+Handle API credentials securely by using environment variables rather than hardcoding them in the code:
 
 Replace these lines:
 ```python
@@ -56,7 +60,6 @@ access_token_secret = "YOUR_ACCESS_TOKEN_SECRET"
 
 With:
 ```python
-
 consumer_key = os.environ.get("CONSUMER_KEY")
 consumer_secret = os.environ.get("CONSUMER_SECRET")
 access_token = os.environ.get("ACCESS_TOKEN")
@@ -67,5 +70,3 @@ if any(v is None for v in [consumer_key, consumer_secret, access_token, access_t
 ```
 
 Remember to set the environment variables `CONSUMER_KEY`, `CONSUMER_SECRET`, `ACCESS_TOKEN`, and `ACCESS_TOKEN_SECRET` with your actual API credentials.
-
-These optimizations should improve the performance and readability of the script.
